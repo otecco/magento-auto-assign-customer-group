@@ -1,0 +1,4 @@
+app/code/community/Shopix/AutoAssignCustomerGroup app/code/community/Shopix/AutoAssignCustomerGroup
+app/etc/modules/Shopix_AutoAssignCustomerGroup.xml app/etc/modules/Shopix_AutoAssignCustomerGroup.xml
+app/etc/modules/Ebizmarts_MageMonkey.xml app/etc/modules/Ebizmarts_MageMonkey.xml
+

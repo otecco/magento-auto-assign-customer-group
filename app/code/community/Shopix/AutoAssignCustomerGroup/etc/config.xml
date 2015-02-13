@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Shopix_AutoAssignCustomerGroup - Magento Auto-Assign Customer Group
+    Copyright (C) 2015 Shopix Pty Ltd (http://www.shopix.com.au)
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<config>
+    <modules>
+        <Shopix_AutoAssignCustomerGroup>
+            <version>0.2.0</version>
+        </Shopix_AutoAssignCustomerGroup>
+    </modules>
+    
+    <global>
+        <resources>
+            <autoassigncustomergroup_setup>
+                <setup>
+                    <module>Shopix_AutoAssignCustomerGroup</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </autoassigncustomergroup_setup>
+        </resources>
+
+        <helpers>
+            <autoassigncustomergroup>
+                <class>Shopix_AutoAssignCustomerGroup_Helper</class>
+            </autoassigncustomergroup>
+            <monkey>
+                <rewrite>
+                    <data>Shopix_AutoAssignCustomerGroup_Helper_MageMonkey_Data</data>
+                </rewrite>
+            </monkey>
+        </helpers>
+
+        <models>
+            <newsletter_resource>
+                <rewrite>
+                    <subscriber_collection>Shopix_AutoAssignCustomerGroup_Model_Resource_Newsletter_Subscriber_Collection</subscriber_collection>
+                </rewrite>
+            </newsletter_resource>
+        </models>
+
+        <blocks>
+            <adminhtml>
+                <rewrite>
+                    <newsletter_subscriber_grid>Shopix_AutoAssignCustomerGroup_Block_Adminhtml_Newsletter_Subscriber_Grid</newsletter_subscriber_grid>
+                    <customer_group_edit_form>Shopix_AutoAssignCustomerGroup_Block_Adminhtml_Customer_Group_Edit_Form</customer_group_edit_form>
+                    <customer_group_grid>Shopix_AutoAssignCustomerGroup_Block_Adminhtml_Customer_Group_Grid</customer_group_grid>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+
+        <events>
+	    <core_copy_fieldset_customer_account_to_quote>
+                <observers>
+                    <shopix_core_copy_fieldset_customer_account_to_quote>
+                        <type>singleton</type>
+                        <class>Shopix_AutoAssignCustomerGroup_Model_Observer</class>
+                        <method>coreCopyFieldsetCustomerAccountToQuote</method>
+                    </shopix_core_copy_fieldset_customer_account_to_quote>
+                </observers>
+	    </core_copy_fieldset_customer_account_to_quote>
+            <customer_save_before>
+                <observers>
+                    <shopix_autoassigncustomergroup_customer_save_before>
+                        <type>singleton</type>
+                        <class>Shopix_AutoAssignCustomerGroup_Model_Observer</class>
+                        <method>customerSaveBefore</method>
+                    </shopix_autoassigncustomergroup_customer_save_before>
+                </observers>
+            </customer_save_before>
+	    <newsletter_subscriber_save_before>
+                <observers>
+                    <shopix_autoassigncustomergroup_newsletter_subscriber_save_before>
+                        <type>singleton</type>
+                        <class>Shopix_AutoAssignCustomerGroup_Model_Observer</class>
+                        <method>newsletterSubscriberSaveBefore</method>
+                    </shopix_autoassigncustomergroup_newsletter_subscriber_save_before>
+                </observers>
+	    </newsletter_subscriber_save_before>
+        </events>         
+    </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Shopix_AutoAssignCustomerGroup before="Mage_Adminhtml">Shopix_AutoAssignCustomerGroup_Adminhtml</Shopix_AutoAssignCustomerGroup>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <autoassigncustomergroup>
+                                            <title>Access Auto Assign Customer Group Module Section</title>
+                                        </autoassigncustomergroup>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+
+    <config>
+        <default>
+            <autoassigncustomergroup>
+                <general>
+                    <param_name>group</param_name>
+                </general>
+            </autoassigncustomergroup>
+        </default>
+    </config>
+
+</config>
+
